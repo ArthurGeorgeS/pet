@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Agendamento')}"></head>
+<body>
+<div class="d-flex flex-column flex-md-row min-vh-100">
+  <nav th:replace="~{fragments :: menu('agendamentos')}"></nav>
+  <main class="flex-grow-1 p-4" style="max-width:720px">
+    <h3 class="mb-3" th:text="${ag.id == null} ? 'Novo agendamento' : 'Editar agendamento'">Agendamento</h3>
+    <form method="post" action="/agendamentos/salvar" novalidate>
+      <input type="hidden" name="id" th:value="${ag.id}">
+      <div class="mb-3"><label class="form-label" for="petId">Pet</label>
+        <select class="form-select" id="petId" name="petId" th:classappend="${erros['pet']} ? 'is-invalid'">
+          <option value="">Selecione…</option>
+          <option th:each="p : ${pets}" th:value="${p.id}" th:text="${p.nome + ' (' + p.tutor.nome + ')'}"
+                  th:selected="${ag.pet != null and ag.pet.id == p.id}"></option>
+        </select>
+        <div class="invalid-feedback" th:text="${erros['pet']}"></div></div>
+      <div class="row">
+        <div class="col-md-6 mb-3"><label class="form-label" for="servico">Serviço</label>
+          <select class="form-select" id="servico" name="servico" th:classappend="${erros['servico']} ? 'is-invalid'">
+            <option th:each="s : ${servicos}" th:value="${s}" th:text="${s.replace('_',' ')}" th:selected="${s == ag.servico}"></option>
+          </select>
+          <div class="invalid-feedback" th:text="${erros['servico']}"></div></div>
+        <div class="col-md-6 mb-3"><label class="form-label" for="status">Status</label>
+          <select class="form-select" id="status" name="status" th:classappend="${erros['status']} ? 'is-invalid'">
+            <option th:each="s : ${statusList}" th:value="${s}" th:text="${s.replace('_',' ')}" th:selected="${s == ag.status}"></option>
+          </select>
+          <div class="invalid-feedback" th:text="${erros['status']}"></div></div>
+      </div>
+      <div class="mb-3"><label class="form-label" for="dataHora">Data e horário</label>
+        <input class="form-control" type="datetime-local" id="dataHora" name="dataHora"
+               th:value="${ag.dataHora != null} ? ${#temporals.formatISO(ag.dataHora).substring(0,16)} : ''"
+               th:classappend="${erros['dataHora']} ? 'is-invalid'">
+        <div class="invalid-feedback" th:text="${erros['dataHora']}"></div></div>
+      <button class="btn btn-success">Salvar</button> <a class="btn btn-secondary" href="/agendamentos">Cancelar</a>
+    </form>
+  </main>
+</div>
+<div th:replace="~{fragments :: sessao}"></div>
+</body>
+</html>

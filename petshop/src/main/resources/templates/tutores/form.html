@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Tutor')}"></head>
+<body>
+<div class="d-flex flex-column flex-md-row min-vh-100">
+  <nav th:replace="~{fragments :: menu('tutores')}"></nav>
+  <main class="flex-grow-1 p-4" style="max-width:720px">
+    <h3 class="mb-3" th:text="${tutor.id == null} ? 'Novo tutor' : 'Editar tutor'">Tutor</h3>
+    <form method="post" action="/tutores/salvar" novalidate>
+      <input type="hidden" name="id" th:value="${tutor.id}">
+      <div class="mb-3"><label class="form-label" for="nome">Nome</label>
+        <input class="form-control" id="nome" name="nome" th:value="${tutor.nome}" th:classappend="${erros['nome']} ? 'is-invalid'">
+        <div class="invalid-feedback" th:text="${erros['nome']}"></div></div>
+      <div class="row">
+        <div class="col-md-6 mb-3"><label class="form-label" for="telefone">Telefone</label>
+          <input class="form-control" id="telefone" name="telefone" placeholder="(11) 99999-9999" th:value="${tutor.telefone}" th:classappend="${erros['telefone']} ? 'is-invalid'">
+          <div class="invalid-feedback" th:text="${erros['telefone']}"></div></div>
+        <div class="col-md-6 mb-3"><label class="form-label" for="cpf">CPF</label>
+          <input class="form-control" id="cpf" name="cpf" placeholder="Somente números" th:value="${tutor.cpf}" th:classappend="${erros['cpf']} ? 'is-invalid'">
+          <div class="invalid-feedback" th:text="${erros['cpf']}"></div></div>
+      </div>
+      <div class="mb-3"><label class="form-label" for="email">E-mail</label>
+        <input class="form-control" id="email" name="email" th:value="${tutor.email}" th:classappend="${erros['email']} ? 'is-invalid'">
+        <div class="invalid-feedback" th:text="${erros['email']}"></div></div>
+      <div class="mb-3"><label class="form-label" for="endereco">Endereço</label>
+        <input class="form-control" id="endereco" name="endereco" th:value="${tutor.endereco}" th:classappend="${erros['endereco']} ? 'is-invalid'">
+        <div class="invalid-feedback" th:text="${erros['endereco']}"></div></div>
+      <button class="btn btn-success">Salvar</button> <a class="btn btn-secondary" href="/tutores">Cancelar</a>
+    </form>
+  </main>
+</div>
+<div th:replace="~{fragments :: sessao}"></div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Pets')}"></head>
+<body>
+<div class="d-flex flex-column flex-md-row min-vh-100">
+  <nav th:replace="~{fragments :: menu('pets')}"></nav>
+  <main class="flex-grow-1 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="m-0">Pets</h3><a class="btn btn-primary" href="/pets/novo">+ Novo pet</a>
+    </div>
+    <div th:replace="~{fragments :: msgs}"></div>
+    <form class="input-group mb-3" method="get" action="/pets">
+      <input class="form-control" name="busca" placeholder="Buscar por nome" th:value="${busca}">
+      <button class="btn btn-outline-secondary">Buscar</button>
+    </form>
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead><tr><th>Nome</th><th>Espécie</th><th>Raça</th><th>Idade</th><th>Tutor</th><th class="text-end">Ações</th></tr></thead>
+        <tbody>
+          <tr th:each="p : ${pets}">
+            <td th:text="${p.nome}"></td><td th:text="${p.especie}"></td><td th:text="${p.raca}"></td>
+            <td th:text="${p.idade} + ' ano(s)'"></td><td th:text="${p.tutor.nome}"></td>
+            <td class="text-end text-nowrap">
+              <a class="btn btn-sm btn-outline-primary" th:href="@{/pets/{id}/editar(id=${p.id})}">Editar</a>
+              <form class="d-inline" method="post" th:action="@{/pets/{id}/excluir(id=${p.id})}"
+                    onsubmit="return confirm('Excluir este pet?')">
+                <button class="btn btn-sm btn-outline-danger">Excluir</button>
+              </form>
+            </td>
+          </tr>
+          <tr th:if="${pets.isEmpty()}"><td colspan="6" class="text-muted">Nenhum pet encontrado.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<div th:replace="~{fragments :: sessao}"></div>
+</body>
+</html>

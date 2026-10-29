@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Painel')}"></head>
+<body>
+<div class="d-flex flex-column flex-md-row min-vh-100">
+  <nav th:replace="~{fragments :: menu('painel')}"></nav>
+  <main class="flex-grow-1 p-4">
+    <h3 class="mb-4">Painel</h3>
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-lg-3"><div class="card text-bg-primary"><div class="card-body"><div class="fs-2" th:text="${agHoje.size()}">0</div>Agendamentos hoje</div></div></div>
+      <div class="col-6 col-lg-3"><div class="card text-bg-success"><div class="card-body"><div class="fs-2" th:text="${totalTutores}">0</div>Clientes (tutores)</div></div></div>
+      <div class="col-6 col-lg-3"><div class="card text-bg-info"><div class="card-body"><div class="fs-2" th:text="${totalPets}">0</div>Pets</div></div></div>
+      <div class="col-6 col-lg-3"><div class="card text-bg-warning"><div class="card-body"><div class="fs-2" th:text="${estoqueBaixo}">0</div>Produtos com estoque &lt; 5</div></div></div>
+    </div>
+    <h5>Agendamentos de hoje</h5>
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead><tr><th>Horário</th><th>Pet</th><th>Serviço</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr th:each="a : ${agHoje}">
+            <td th:text="${#temporals.format(a.dataHora, 'HH:mm')}"></td>
+            <td th:text="${a.pet.nome}"></td>
+            <td th:text="${a.servico.replace('_',' ')}"></td>
+            <td th:text="${a.status.replace('_',' ')}"></td>
+          </tr>
+          <tr th:if="${agHoje.isEmpty()}"><td colspan="4" class="text-muted">Nenhum agendamento para hoje.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<div th:replace="~{fragments :: sessao}"></div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Pet')}"></head>
+<body>
+<div class="d-flex flex-column flex-md-row min-vh-100">
+  <nav th:replace="~{fragments :: menu('pets')}"></nav>
+  <main class="flex-grow-1 p-4" style="max-width:720px">
+    <h3 class="mb-3" th:text="${pet.id == null} ? 'Novo pet' : 'Editar pet'">Pet</h3>
+    <form method="post" action="/pets/salvar" novalidate>
+      <input type="hidden" name="id" th:value="${pet.id}">
+      <div class="mb-3"><label class="form-label" for="nome">Nome</label>
+        <input class="form-control" id="nome" name="nome" th:value="${pet.nome}" th:classappend="${erros['nome']} ? 'is-invalid'">
+        <div class="invalid-feedback" th:text="${erros['nome']}"></div></div>
+      <div class="row">
+        <div class="col-md-4 mb-3"><label class="form-label" for="especie">Espécie</label>
+          <input class="form-control" id="especie" name="especie" placeholder="Cão, Gato…" th:value="${pet.especie}" th:classappend="${erros['especie']} ? 'is-invalid'">
+          <div class="invalid-feedback" th:text="${erros['especie']}"></div></div>
+        <div class="col-md-5 mb-3"><label class="form-label" for="raca">Raça</label>
+          <input class="form-control" id="raca" name="raca" th:value="${pet.raca}"></div>
+        <div class="col-md-3 mb-3"><label class="form-label" for="idade">Idade (anos)</label>
+          <input class="form-control" id="idade" name="idade" th:value="${pet.idade}" th:classappend="${erros['idade']} ? 'is-invalid'">
+          <div class="invalid-feedback" th:text="${erros['idade']}"></div></div>
+      </div>
+      <div class="mb-3"><label class="form-label" for="tutorId">Tutor</label>
+        <select class="form-select" id="tutorId" name="tutorId" th:classappend="${erros['tutor']} ? 'is-invalid'">
+          <option value="">Selecione…</option>
+          <option th:each="t : ${tutores}" th:value="${t.id}" th:text="${t.nome}"
+                  th:selected="${pet.tutor != null and pet.tutor.id == t.id}"></option>
+        </select>
+        <div class="invalid-feedback" th:text="${erros['tutor']}"></div></div>
+      <button class="btn btn-success">Salvar</button> <a class="btn btn-secondary" href="/pets">Cancelar</a>
+    </form>
+  </main>
+</div>
+<div th:replace="~{fragments :: sessao}"></div>
+</body>
+</html>

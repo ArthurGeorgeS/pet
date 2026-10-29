@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Login')}"></head>
+<body class="bg-light">
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+  <div class="card shadow-sm" style="max-width:380px;width:100%">
+    <div class="card-body p-4">
+      <h4 class="text-center mb-3">🐾 PetShop</h4>
+      <div class="alert alert-warning" th:if="${expirada}">🔒 Sua sessão foi encerrada por <strong>inatividade (30 s)</strong>. Entre novamente.</div>
+      <div class="alert alert-info" th:if="${saiu}">Você saiu do sistema.</div>
+      <div class="alert alert-danger" th:if="${erro}" th:text="${erro}"></div>
+      <form method="post" action="/login">
+        <div class="mb-3"><label class="form-label" for="username">Usuário</label>
+          <input class="form-control" id="username" name="username" required autofocus></div>
+        <div class="mb-3"><label class="form-label" for="senha">Senha</label>
+          <input class="form-control" id="senha" name="senha" type="password" required></div>
+        <button class="btn btn-primary w-100">Entrar</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

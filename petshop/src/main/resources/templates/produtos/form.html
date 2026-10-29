@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Produto')}"></head>
+<body>
+<div class="d-flex flex-column flex-md-row min-vh-100">
+  <nav th:replace="~{fragments :: menu('produtos')}"></nav>
+  <main class="flex-grow-1 p-4" style="max-width:720px">
+    <h3 class="mb-3" th:text="${produto.id == null} ? 'Novo produto' : 'Editar produto'">Produto</h3>
+    <form method="post" action="/produtos/salvar" novalidate>
+      <input type="hidden" name="id" th:value="${produto.id}">
+      <div class="mb-3"><label class="form-label" for="nome">Nome</label>
+        <input class="form-control" id="nome" name="nome" th:value="${produto.nome}" th:classappend="${erros['nome']} ? 'is-invalid'">
+        <div class="invalid-feedback" th:text="${erros['nome']}"></div></div>
+      <div class="row">
+        <div class="col-md-6 mb-3"><label class="form-label" for="preco">Preço (R$)</label>
+          <input class="form-control" id="preco" name="preco" placeholder="25,90" th:value="${produto.preco}" th:classappend="${erros['preco']} ? 'is-invalid'">
+          <div class="invalid-feedback" th:text="${erros['preco']}"></div></div>
+        <div class="col-md-6 mb-3"><label class="form-label" for="estoque">Estoque</label>
+          <input class="form-control" id="estoque" name="estoque" th:value="${produto.estoque}" th:classappend="${erros['estoque']} ? 'is-invalid'">
+          <div class="invalid-feedback" th:text="${erros['estoque']}"></div></div>
+      </div>
+      <button class="btn btn-success">Salvar</button> <a class="btn btn-secondary" href="/produtos">Cancelar</a>
+    </form>
+  </main>
+</div>
+<div th:replace="~{fragments :: sessao}"></div>
+</body>
+</html>

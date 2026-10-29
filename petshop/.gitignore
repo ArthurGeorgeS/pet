@@ -1,0 +1,7 @@
+target/
+data/
+config/chave.key
+.env
+*.mv.db
+*.trace.db
+.idea/
